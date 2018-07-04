@@ -1,0 +1,27 @@
+﻿<ContentDialog 
+    x:Class="SimpleImageToASCII.Views.FirstRunDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="345"
+    d:DesignWidth="550"
+    PrimaryButtonText="Ok">
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="ms-appx:///Assets/StoreLogo.scale-100.png" Width="40" Height="40" Margin="0"/>
+                <TextBlock x:Uid="FirstRun_Title" Text="Welcome" Margin="10,5,0,0"/>                
+            </StackPanel>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock  TextWrapping="WrapWholeWords">
+                <Run x:Uid="FirstRun_Body"></Run><LineBreak/>
+                <Run FontWeight="Bold" >Have Fun :)</Run><LineBreak/>
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

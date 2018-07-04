@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</Source>
+    <SmallTileSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</SmallTileSource>
+    <MediumTileSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</MediumTileSource>
+    <WideTileSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</WideTileSource>
+    <LargeTileSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</LargeTileSource>
+    <AppIconSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</AppIconSource>
+    <SplashScreenSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</PackageLogoSource>
+    <BadgeLogoSource>C:\Users\qweas\Pictures\FAC7E2E3787C452BACB7DC6D23F2BA7A.png</BadgeLogoSource>
+    <AppxPackageIsForStore>True</AppxPackageIsForStore>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+  </PropertyGroup>
+</Project>

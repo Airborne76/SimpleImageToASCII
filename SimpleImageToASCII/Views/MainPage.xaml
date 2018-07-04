@@ -1,0 +1,105 @@
+﻿<Page
+    x:Class="SimpleImageToASCII.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:draganddrop="using:SimpleImageToASCII.Services.DragAndDrop"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    Style="{StaticResource PageStyle}"
+    AllowDrop="True"
+    DragOver="Page_DragOver"
+    DragLeave="Page_DragLeave"
+    Drop="Page_Drop"
+    mc:Ignorable="d">
+    <draganddrop:DragDropService.Configuration>
+        <draganddrop:DropConfiguration DropStorageItemsCommand="{x:Bind ViewModel.GetStorageItemsCommand,Mode=OneWay}" />
+    </draganddrop:DragDropService.Configuration>
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="auto" />
+                    <RowDefinition  Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Button x:Uid="MainPage_SelectPicrure"  Background="{StaticResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" Command="{x:Bind ViewModel.LoadImage,Mode=OneWay}" >
+                            <Button.Content>
+                                <SymbolIcon Symbol="OpenFile"/>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock x:Uid="MainPage_PixelDensity"  VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <Slider Width="100" Margin="10,0,0,0" Minimum="1"  Maximum="5" Value="{x:Bind ViewModel.PixelDensity,Mode=TwoWay}"></Slider>
+                        <TextBlock x:Uid="MainPage_Contrast"  VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <Slider Width="100" Margin="10,0,0,0" Minimum="-255"  Maximum="255" Value="{x:Bind ViewModel.Contrast,Mode=TwoWay}" />
+                        <SymbolIcon x:Uid="MainPage_FontSize" Symbol="FontSize"  Margin="10,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Font size" />
+                        <Slider x:Name="silder" Margin="10,0,0,0" Width="100" Minimum="1" Maximum="5" Value="{x:Bind ViewModel.FontSize,Mode=TwoWay}"></Slider>
+                    </StackPanel>
+                    <Grid Grid.Column="1">
+                        <Button Background="Transparent" x:Uid="MainPage_Camera">
+                            <Button.Content>
+                                <SymbolIcon Symbol="Camera" Foreground="Green" />
+                            </Button.Content>
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Uid="MainPage_Camera_builtIn" Command="{x:Bind ViewModel.CameraUIImage}" />
+                                    <MenuFlyoutItem x:Uid="MainPage_Camera_direct" Command="{x:Bind ViewModel.DirectCapture}" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" x:Name="CanvasGrid" Visibility="{x:Bind ViewModel.CanvasVisibility,Mode=OneWay}" HorizontalAlignment="Stretch" MinWidth="500">
+                        <animations:Implicit.HideAnimations>
+                            <animations:ScalarAnimation Target="Translation.X" Duration="0:0:1" To="-100">
+                                <!--<animations:ScalarKeyFrame Key="0.1" Value="10"></animations:ScalarKeyFrame>
+                                <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>-->
+                            </animations:ScalarAnimation>
+                            <animations:ScalarAnimation Target="Opacity" Duration="0:0:1" To="0.0"></animations:ScalarAnimation>
+                        </animations:Implicit.HideAnimations>
+                        <animations:Implicit.ShowAnimations>
+                            <animations:TranslationAnimation Duration="0:0:1" From="-100, 0, 0" To="0" ></animations:TranslationAnimation>
+                            <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
+                        </animations:Implicit.ShowAnimations>
+                        <xaml:CanvasControl x:Name="canvasControl"  Draw="{x:Bind ViewModel.Draw}" HorizontalAlignment="Center"  VerticalAlignment="Center" Tapped="{x:Bind ViewModel.ConvertASCII}" />
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.BitmapImage,Mode=OneWay}" Stretch="UniformToFill" />
+                        </Grid.Background>
+                        <Border >
+                            <Border.Background>
+                                <!--<media:BackdropBlurBrush Amount="10" />-->
+                                <AcrylicBrush BackgroundSource="Backdrop" TintOpacity="0" TintColor="#FF000000" FallbackColor="#FF008000" />
+                            </Border.Background>
+                        </Border>
+                        <Border x:Name="DragIcon" Width="75" Height="75" CornerRadius="10" BorderThickness="5" BorderBrush="{ThemeResource InkToolbarAccentColorThemeBrush}" HorizontalAlignment="Center" Visibility="Collapsed">
+                            <SymbolIcon Symbol="Paste" Foreground="{ThemeResource InkToolbarAccentColorThemeBrush}" />
+                        </Border>
+                        <ScrollViewer x:Name="scrollViewer" Background="Transparent" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent" RightTapped="{x:Bind ViewModel.ShowFlyout}" IsRightTapEnabled="True">
+                                <TextBlock x:Name="ASCIIText"  FontSize="{x:Bind silder.Value,Mode=OneWay}" LineHeight="{x:Bind silder.Value,Mode=OneWay}" CharacterSpacing="-2"  FontFamily="Courier New" IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.ASCIIText,Mode=OneWay}"   HorizontalAlignment="Center" VerticalAlignment="Center">
+                                </TextBlock>
+                            </Border>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
