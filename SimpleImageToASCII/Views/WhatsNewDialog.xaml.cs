@@ -14,7 +14,13 @@ namespace SimpleImageToASCII.Views
             InitializeComponent();
         }
 
-        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        //private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string url = "ms-windows-store://review/?ProductId=9PD60ZWCB16K";
+        //    await Launcher.LaunchUriAsync(new Uri(url));
+        //}
+
+        private async void HyperlinkButton_Click(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             string url = "ms-windows-store://review/?ProductId=9PD60ZWCB16K";
             await Launcher.LaunchUriAsync(new Uri(url));

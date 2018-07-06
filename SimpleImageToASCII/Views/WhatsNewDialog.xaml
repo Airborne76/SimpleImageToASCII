@@ -7,7 +7,9 @@
     mc:Ignorable="d"
     d:DesignHeight="345"
     d:DesignWidth="550"
-    PrimaryButtonText="Ok">
+    PrimaryButtonText="Ok"
+    x:Uid="AfterUpdate"
+    SecondaryButtonClick="HyperlinkButton_Click">
     <ContentDialog.TitleTemplate>
         <DataTemplate>
             <StackPanel Orientation="Horizontal">
@@ -20,8 +22,8 @@
         <StackPanel Orientation="Vertical">
             <TextBlock x:Uid="AfterUpdate_Body" TextWrapping="WrapWholeWords">
             </TextBlock>
-            <HyperlinkButton x:Uid="AfterUpdate_Review" Click="HyperlinkButton_Click" FontFamily="Segoe UI">
-            </HyperlinkButton>
+            <!--<HyperlinkButton x:Uid="AfterUpdate_Review" Click="HyperlinkButton_Click" FontFamily="Segoe UI">
+            </HyperlinkButton>-->
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

@@ -14,83 +14,87 @@
 
     <Grid Margin="{StaticResource MediumLeftRightMargin}">
         <ScrollViewer VerticalScrollBarVisibility="Auto" FontFamily="Segoe UI">
-        <StackPanel
+            <StackPanel
             x:Name="ContentArea">
-            <TextBlock
+                <TextBlock
                 x:Uid="Settings_Personalization"
                 Style="{StaticResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
-                <TextBlock
+                <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
+                    <TextBlock
                     x:Uid="Settings_Theme"
                     Style="{StaticResource BodyTextStyle}" />
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <RadioButton
+                    <StackPanel Margin="{StaticResource EightTopMargin}">
+                        <RadioButton
                         x:Uid="Settings_Theme_Light"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Light</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                        <RadioButton
                         x:Uid="Settings_Theme_Dark"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                        <RadioButton
                         x:Uid="Settings_Theme_Default"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Default</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Margin="{StaticResource SettingsContentMargin}">
-                <TextBlock x:Uid="Settings_BackGround_Image" Style="{StaticResource BodyTextStyle}" />
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseBackGroundImage,Mode=TwoWay}">
-                    </ToggleSwitch>
+                <StackPanel Margin="{StaticResource SettingsContentMargin}">
+                    <TextBlock x:Uid="Settings_BackGround_Image" Style="{StaticResource BodyTextStyle}" />
+                    <StackPanel Margin="{StaticResource EightTopMargin}">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.UseBackGroundImage,Mode=TwoWay}">
+                        </ToggleSwitch>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Margin="{StaticResource SettingsContentMargin}">
-                <TextBlock x:Uid="Settings_pictureCompression" Style="{StaticResource BodyTextStyle}" />
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.UsePictureCompression,Mode=TwoWay}">
+                <StackPanel Margin="{StaticResource SettingsContentMargin}">
+                    <TextBlock x:Uid="Settings_pictureCompression" Style="{StaticResource BodyTextStyle}" />
+                    <StackPanel Margin="{StaticResource EightTopMargin}">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.UsePictureCompression,Mode=TwoWay}">
 
-                    </ToggleSwitch>
+                        </ToggleSwitch>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Margin="{StaticResource SettingsContentMargin}">
-                <TextBlock x:Uid="Settings_Characters" Style="{StaticResource BodyTextStyle}" />
-                <StackPanel Margin="{StaticResource EightTopMargin}" Orientation="Horizontal">
-                    <TextBox MaxLength="15" MinWidth="200" HorizontalAlignment="Left" Text="{x:Bind ViewModel.Characters,Mode=TwoWay}" />
-                    <Button x:Uid="Settings_Characters_Default" Margin="10,0,0,0" Command="{x:Bind ViewModel.SetToDefault}" />
+                <StackPanel Margin="{StaticResource SettingsContentMargin}">
+                    <TextBlock x:Uid="Settings_Characters" Style="{StaticResource BodyTextStyle}" />
+                    <StackPanel Margin="{StaticResource EightTopMargin}" Orientation="Horizontal">
+                        <TextBox MaxLength="15" MinWidth="200" HorizontalAlignment="Left" Text="{x:Bind ViewModel.Characters,Mode=TwoWay}" />
+                        <Button x:Uid="Settings_Characters_Default" Margin="10,0,0,0" Command="{x:Bind ViewModel.SetToDefault}" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Margin="{StaticResource EightTopMargin}">
-                <HyperlinkButton x:Uid="Settings_UpdateLog" Command="{x:Bind ViewModel.WhatsNewCommand}" />
-            </StackPanel>
-            <StackPanel Margin="{StaticResource EightTopMargin}">
-                <TextBlock
+                <StackPanel Margin="{StaticResource EightTopMargin}">
+                    <HyperlinkButton x:Uid="Settings_UpdateLog" Command="{x:Bind ViewModel.WhatsNewCommand}" />
+                </StackPanel>
+                <StackPanel Margin="{StaticResource EightTopMargin}">
+                    <TextBlock
                     Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                <TextBlock                    
+                    <TextBlock                    
                     x:Uid="Settings_AboutDescription"
                     Margin="{StaticResource EightTopMargin}" FontWeight="Bold" />
-                <Button x:Uid="Settings_SendFeedback" Margin="{StaticResource EightTopMargin}" Command="{x:Bind ViewModel.SendFeedback}">
-                </Button>
-                <HyperlinkButton
+                    <StackPanel Margin="{StaticResource EightTopMargin}" Orientation="Horizontal">
+                        <Button x:Uid="Settings_SendFeedback" Command="{x:Bind ViewModel.SendFeedback}">
+                        </Button>
+                        <Button x:Uid="Settings_Share" Margin="10,0,10,0" Command="{x:Bind ViewModel.ShareApplication}">
+                        </Button>
+                    </StackPanel>
+                    <HyperlinkButton
                     x:Uid="Settings_PrivacyTermsLink"
                     Margin="{StaticResource EightTopMargin}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
         </ScrollViewer>
-    </Grid>    
+    </Grid>
 </Page>

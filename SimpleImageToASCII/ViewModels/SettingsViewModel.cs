@@ -5,6 +5,7 @@ using SimpleImageToASCII.Models;
 using SimpleImageToASCII.Services;
 using SimpleImageToASCII.Views;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Xaml;
 
@@ -137,7 +138,26 @@ namespace SimpleImageToASCII.ViewModels
                 return _sendFeedback;
             }
         }
+        public ICommand ShareApplication
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    dataTransferManager.DataRequested += OnDataRequested;
+                    DataTransferManager.ShowShareUI();
+                });
+            }
+        }
 
+        DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            ShareSourceData shareSourceData = new ShareSourceData("AppDisplayName".GetLocalized());
+            shareSourceData.SetWebLink(new Uri("https://www.microsoft.com/store/productId/9PD60ZWCB16K"));
+            e.Request.SetData(shareSourceData);
+        }
 
         public SettingsViewModel()
         {
