@@ -130,6 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="Convert\BoolNullToBool.cs" />
+    <Compile Include="Convert\BoolNullToVisibility.cs" />
     <Compile Include="Helpers\DataRequestExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\FontSizeService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\PaintCharacterService.cs" />
     <Compile Include="Services\pictureCompression.cs" />
     <Compile Include="Services\PixelSelectorService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />

@@ -87,6 +87,7 @@ namespace SimpleImageToASCII.Services
             await ContrastService.InitializeAsync();
             await PictureCompression.InitializeAsync();
             await CharacterService.InitializeAsync();
+            await PaintCharacterService.InitializeAsync();
             await Task.CompletedTask;
         }
 

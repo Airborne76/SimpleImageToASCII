@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio" IgnorableNamespaces="uap mp genTemplate">
-  <Identity Name="4000Firefly.ConvertImagetoASCII" Publisher="CN=01D2A63C-81B4-4A8B-8B59-00635D663A97" Version="1.1.4.0" />
+  <Identity Name="4000Firefly.ConvertImagetoASCII" Publisher="CN=01D2A63C-81B4-4A8B-8B59-00635D663A97" Version="1.1.5.0" />
   <mp:PhoneIdentity PhoneProductId="63c8eb9b-73c8-4e47-810d-47097e599cbe" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Convert Image to ASCII</DisplayName>

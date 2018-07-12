@@ -138,6 +138,7 @@ namespace SimpleImageToASCII.ViewModels
                 return _sendFeedback;
             }
         }
+
         public ICommand ShareApplication
         {
             get

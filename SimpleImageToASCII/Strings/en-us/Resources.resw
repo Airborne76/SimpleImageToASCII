@@ -271,7 +271,8 @@ Please feedback if you have any suggestion or find bugs.</value>
     <comment>Copy text</comment>
   </data>
   <data name="AfterUpdate_Body.Text" xml:space="preserve">
-    <value>Add review link</value>
+    <value>Add text painting(lock text then paint on text)
+Increase the maximum fontsize to 8</value>
     <comment>What's new prompt message body</comment>
   </data>
   <data name="AfterUpdate_Title.Text" xml:space="preserve">
@@ -313,5 +314,9 @@ Please feedback if you have any suggestion or find bugs.</value>
   <data name="Settings_Share.Content" xml:space="preserve">
     <value>Share this Application🤪</value>
     <comment>Share APP</comment>
+  </data>
+  <data name="MainPage_LockText.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lock text for painting</value>
+    <comment>Lock Text</comment>
   </data>
 </root>

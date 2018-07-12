@@ -8,12 +8,17 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:draganddrop="using:SimpleImageToASCII.Services.DragAndDrop"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:cvt="using:SimpleImageToASCII.Convert"
     Style="{StaticResource PageStyle}"
     AllowDrop="True"
     DragOver="Page_DragOver"
     DragLeave="Page_DragLeave"
     Drop="Page_Drop"
     mc:Ignorable="d">
+    <Page.Resources>
+        <cvt:BoolNullToBool x:Key="BoolNullToBool"/>
+        <cvt:BoolNullToVisibility x:Key="BoolNullToVisibility" />
+    </Page.Resources>
     <draganddrop:DragDropService.Configuration>
         <draganddrop:DropConfiguration DropStorageItemsCommand="{x:Bind ViewModel.GetStorageItemsCommand,Mode=OneWay}" />
     </draganddrop:DragDropService.Configuration>
@@ -33,20 +38,38 @@
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <Button x:Uid="MainPage_SelectPicrure"  Background="{StaticResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" Command="{x:Bind ViewModel.LoadImage,Mode=OneWay}" >
+                        <Button x:Uid="MainPage_SelectPicrure" Margin="5,0,0,0" VerticalAlignment="Center"  Background="{StaticResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" Command="{x:Bind ViewModel.LoadImage,Mode=OneWay}" >
                             <Button.Content>
                                 <SymbolIcon Symbol="OpenFile"/>
                             </Button.Content>
                         </Button>
                         <TextBlock x:Uid="MainPage_PixelDensity"  VerticalAlignment="Center" Margin="10,0,0,0" />
-                        <Slider Width="100" Margin="10,0,0,0" Minimum="1"  Maximum="5" Value="{x:Bind ViewModel.PixelDensity,Mode=TwoWay}"></Slider>
-                        <TextBlock x:Uid="MainPage_Contrast"  VerticalAlignment="Center" Margin="10,0,0,0" />
-                        <Slider Width="100" Margin="10,0,0,0" Minimum="-255"  Maximum="255" Value="{x:Bind ViewModel.Contrast,Mode=TwoWay}" />
-                        <SymbolIcon x:Uid="MainPage_FontSize" Symbol="FontSize"  Margin="10,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Font size" />
-                        <Slider x:Name="silder" Margin="10,0,0,0" Width="100" Minimum="1" Maximum="5" Value="{x:Bind ViewModel.FontSize,Mode=TwoWay}"></Slider>
+                        <Slider Width="100" Margin="10,0,0,0" VerticalAlignment="Center" Minimum="1"  Maximum="5" Value="{x:Bind ViewModel.PixelDensity,Mode=TwoWay}"></Slider>
+                        <TextBlock x:Uid="MainPage_Contrast"   VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <Slider Width="100" Margin="10,0,0,0" VerticalAlignment="Center" Minimum="-255"  Maximum="255" Value="{x:Bind ViewModel.Contrast,Mode=TwoWay}" />
+                        <SymbolIcon x:Uid="MainPage_FontSize"  Symbol="FontSize"  Margin="10,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Font size" />
+                        <Slider x:Name="silder" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Minimum="1" Maximum="8" Value="{x:Bind ViewModel.FontSize,Mode=TwoWay}"></Slider>
+                        <ToggleButton x:Name="LockText" x:Uid="MainPage_LockText" Margin="10,0,0,0" IsChecked="False" VerticalAlignment="Center">
+                            <ToggleButton.Content>
+                                <SymbolIcon Symbol="ProtectedDocument" />
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <Grid Margin="5,0,0,0" Visibility="{x:Bind LockText.IsChecked,Mode=OneWay,Converter={StaticResource BoolNullToVisibility}}">
+                            <animations:Implicit.HideAnimations>
+                                <animations:ScalarAnimation Target="Translation.X" Duration="0:0:1" To="-50">
+                                </animations:ScalarAnimation>
+                                <animations:ScalarAnimation Target="Opacity" Duration="0:0:1" To="0.0"></animations:ScalarAnimation>
+                            </animations:Implicit.HideAnimations>
+                            <animations:Implicit.ShowAnimations>
+                                <animations:TranslationAnimation Duration="0:0:1" From="-50, 0, 0" To="0" ></animations:TranslationAnimation>
+                                <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
+                            </animations:Implicit.ShowAnimations>
+                            <TextBox MaxLength="1" Text="{x:Bind ViewModel.PaintingCharacter,Mode=TwoWay}" VerticalAlignment="Center">
+                            </TextBox>
+                        </Grid>
                     </StackPanel>
                     <Grid Grid.Column="1">
-                        <Button Background="Transparent" x:Uid="MainPage_Camera">
+                        <Button Background="Transparent" x:Uid="MainPage_Camera" VerticalAlignment="Center">
                             <Button.Content>
                                 <SymbolIcon Symbol="Camera" Foreground="Green" />
                             </Button.Content>
@@ -76,7 +99,7 @@
                             <animations:TranslationAnimation Duration="0:0:1" From="-100, 0, 0" To="0" ></animations:TranslationAnimation>
                             <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
                         </animations:Implicit.ShowAnimations>
-                        <xaml:CanvasControl x:Name="canvasControl"  Draw="{x:Bind ViewModel.Draw}" HorizontalAlignment="Center"  VerticalAlignment="Center" Tapped="{x:Bind ViewModel.ConvertASCII}" />
+                        <xaml:CanvasControl x:Name="canvasControl"  Draw="{x:Bind ViewModel.Draw}" HorizontalAlignment="Center"  VerticalAlignment="Center" Tapped="{x:Bind ViewModel.ConvertASCII}" FontFamily="Courier New" />
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.Background>
@@ -93,7 +116,13 @@
                         </Border>
                         <ScrollViewer x:Name="scrollViewer" Background="Transparent" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent" RightTapped="{x:Bind ViewModel.ShowFlyout}" IsRightTapEnabled="True">
-                                <TextBlock x:Name="ASCIIText"  FontSize="{x:Bind silder.Value,Mode=OneWay}" LineHeight="{x:Bind silder.Value,Mode=OneWay}" CharacterSpacing="-2"  FontFamily="Courier New" IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.ASCIIText,Mode=OneWay}"   HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock x:Name="ASCIIText"  FontSize="{x:Bind silder.Value,Mode=OneWay}" LineHeight="{x:Bind silder.Value,Mode=OneWay}" CharacterSpacing="-2"  FontFamily="Courier New" IsTextSelectionEnabled="{x:Bind LockText.IsChecked,Mode=OneWay,Converter={StaticResource BoolNullToBool}}" Text="{x:Bind ViewModel.ASCIIText,Mode=OneWay}"   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           PointerPressed="{x:Bind ViewModel.PointerPressedEventHandler}"
+                                           PointerExited="{x:Bind ViewModel.PointerExitEventHandler}"
+                                           PointerReleased="{x:Bind ViewModel.PointerReleaseEventHandler}"
+                                           PointerMoved="{x:Bind ViewModel.PointerMoveEventHandler}"
+                                           PointerCanceled="{x:Bind ViewModel.PointerCancelEventHandler}"
+                                           >
                                 </TextBlock>
                             </Border>
                         </ScrollViewer>

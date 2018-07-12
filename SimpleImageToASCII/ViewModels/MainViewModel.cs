@@ -31,6 +31,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.Graphics.Display;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.System;
+using System.Diagnostics;
 
 namespace SimpleImageToASCII.ViewModels
 {
@@ -38,7 +39,7 @@ namespace SimpleImageToASCII.ViewModels
     {
         public MainViewModel()
         {
-            
+
         }
         private int contrast = ContrastService.Contrast;
         public int Contrast
@@ -50,7 +51,7 @@ namespace SimpleImageToASCII.ViewModels
                 ContrastService.SetThemeAsync(value);
             }
         }
-        
+
         public CanvasControl canvasControl;
         public void Init(CanvasControl canvasControl)
         {
@@ -59,7 +60,7 @@ namespace SimpleImageToASCII.ViewModels
 
         private Visibility visibility = Visibility.Collapsed;
         public Visibility CanvasVisibility
-        {   
+        {
             get { return visibility; }
             set { Set(ref visibility, value); }
         }
@@ -81,6 +82,23 @@ namespace SimpleImageToASCII.ViewModels
                 PixelSelectorService.SetThemeAsync(value);
             }
         }
+
+        private string _PaintingCharacter = PaintCharacterService.PaintCharacter;
+
+        public string PaintingCharacter
+        {
+            get { return _PaintingCharacter; }
+            set
+            {
+                if (value=="")
+                {
+                    value = " ";
+                }
+                Set(ref _PaintingCharacter, value);
+                PaintCharacterService.SetThemeAsync(value);
+            }
+        }
+
 
         private int _FontSize = FontSizeService.FontSize;
         public int FontSize
@@ -117,6 +135,7 @@ namespace SimpleImageToASCII.ViewModels
                 };
             }
         }
+
         public RightTappedEventHandler ShowFlyout
         {
             get
@@ -128,9 +147,9 @@ namespace SimpleImageToASCII.ViewModels
                     {
                         MenuFlyout flyout = new MenuFlyout();
                         MenuFlyoutItem convertText = new MenuFlyoutItem { Text = "MainPage_SaveAsImage".GetLocalized() };
-                        convertText.Click += async(sender, eventArgs) =>
+                        convertText.Click += async (sender, eventArgs) =>
                         {
-                            StorageFile file = await KnownFolders.PicturesLibrary.CreateFileAsync("ASCII_Image.png",CreationCollisionOption.GenerateUniqueName);
+                            StorageFile file = await KnownFolders.PicturesLibrary.CreateFileAsync("ASCII_Image.png", CreationCollisionOption.GenerateUniqueName);
                             Element.Background = new SolidColorBrush(Colors.White);
                             var bitmap = new RenderTargetBitmap();
                             await bitmap.RenderAsync(Element);
@@ -182,7 +201,7 @@ namespace SimpleImageToASCII.ViewModels
         {
             get
             {
-                return new RelayCommand(async() =>
+                return new RelayCommand(async () =>
                 {
                     FileOpenPicker filePicker = new FileOpenPicker();
                     filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
@@ -204,13 +223,13 @@ namespace SimpleImageToASCII.ViewModels
         {
             Stream stream = await file.OpenStreamForReadAsync();
             var properties = await file.Properties.GetImagePropertiesAsync();
-            await SetCanvas(properties.Width, properties.Height, stream.AsRandomAccessStream());                     
+            await SetCanvas(properties.Width, properties.Height, stream.AsRandomAccessStream());
         }
-        public async Task SetCanvas(double width,double height,IRandomAccessStream randomAccessStream)
+        public async Task SetCanvas(double width, double height, IRandomAccessStream randomAccessStream)
         {
             CanvasVisibility = Visibility.Visible;
 
-            canvasControl.Height =height;
+            canvasControl.Height = height;
             canvasControl.Width = width;
 
             canvasBitmap = await CanvasBitmap.LoadAsync(canvasControl, randomAccessStream);
@@ -243,7 +262,7 @@ namespace SimpleImageToASCII.ViewModels
         {
             get
             {
-                return async (s,e) =>
+                return async (s, e) =>
                 {
                     CanvasVisibility = Visibility.Collapsed;
                     ASCIIText = GetPixels();
@@ -255,12 +274,15 @@ namespace SimpleImageToASCII.ViewModels
                             BitmapImage.SetSource(stream);
                         }
                     }
-                    
+
                     canvasBitmap.Dispose();
                     canvasBitmap = null;
                 };
             }
         }
+
+        private int TextWidth, TextHeight;
+
 
         public string GetPixels()
         {
@@ -270,14 +292,15 @@ namespace SimpleImageToASCII.ViewModels
 
             StringBuilder builder = new StringBuilder();
 
-            double width = canvasBitmap.Size.Width;            
+            double width = canvasBitmap.Size.Width;
             double height = canvasBitmap.Size.Height;
 
             var pixels = canvasBitmap.GetPixelColors();
-            int pixelDensity =PixelDensity;
-            for (int y = 0; y < height; y += pixelDensity*2)
+            int pixelDensity = PixelDensity;
+            int x = 0, y = 0;
+            for (y = 0; y < height; y += pixelDensity * 2)
             {
-                for (int x = 0; x < width; x += pixelDensity)
+                for (x = 0; x < width; x += pixelDensity)
                 {
                     int offset = (int)(y * width + x);
                     if (offset >= pixels.Length)
@@ -285,7 +308,6 @@ namespace SimpleImageToASCII.ViewModels
                         break;
                     }
                     var color = pixels[offset];
-
                     Color contrastedcolor = new Color()
                     {
                         A = color.A,
@@ -294,14 +316,14 @@ namespace SimpleImageToASCII.ViewModels
                         B = bound((int)(Math.Floor((color.B - 128) * contrastFactor + 128)), new int[] { 0, 255 }),
                     };
                     var bright = (0.299 * contrastedcolor.R + 0.586 * contrastedcolor.G + 0.114 * contrastedcolor.B) / 255;
-
                     //var character = Characters.characters[(Characters.characters.Length - 1) - (int)Math.Round(bright * (Characters.characters.Length - 1))];
                     var character = _characters[(_characters.Length - 1) - (int)Math.Round(bright * (_characters.Length - 1))];
                     builder.Append(character);
                 }
                 builder.Append("\r\n");
             }
-
+            TextWidth = x / pixelDensity;
+            TextHeight = y / (2 * pixelDensity);
             return builder.ToString();
         }
 
@@ -343,16 +365,16 @@ namespace SimpleImageToASCII.ViewModels
                 IRandomAccessStreamReference imageReceived = null;
                 try
                 {
-                    imageReceived = await dataPackageView.GetBitmapAsync();                    
+                    imageReceived = await dataPackageView.GetBitmapAsync();
                 }
                 catch (Exception ex)
-                {                   
+                {
                 }
-                if (imageReceived!=null)
+                if (imageReceived != null)
                 {
                     using (var imageStream = await imageReceived.OpenReadAsync())
                     {
-                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);                       
+                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
                         await SetCanvas(decoder.PixelWidth, decoder.PixelHeight, imageStream);
                     }
                 }
@@ -368,7 +390,7 @@ namespace SimpleImageToASCII.ViewModels
                     CameraCaptureUI captureUI = new CameraCaptureUI();
                     captureUI.PhotoSettings.Format = CameraCaptureUIPhotoFormat.Jpeg;
                     captureUI.PhotoSettings.CroppedSizeInPixels = new Size(150, 150);
-                    StorageFile photo= await captureUI.CaptureFileAsync(CameraCaptureUIMode.Photo);
+                    StorageFile photo = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Photo);
                     if (photo != null)
                     {
                         await LoadFileAsync(photo);
@@ -380,9 +402,9 @@ namespace SimpleImageToASCII.ViewModels
         {
             get
             {
-                return new RelayCommand(async() =>
+                return new RelayCommand(async () =>
                 {
-                    using(MediaCapture mediaCapture=new MediaCapture())
+                    using (MediaCapture mediaCapture = new MediaCapture())
                     {
                         try
                         {
@@ -394,14 +416,14 @@ namespace SimpleImageToASCII.ViewModels
                             AccessDialog accessDialog = new AccessDialog();
                             await accessDialog.ShowAsync();
                             return;
-                        }                        
+                        }
                         using (var captureStream = new InMemoryRandomAccessStream())
                         {
                             await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), captureStream);
                             using (var stream = new InMemoryRandomAccessStream())
                             {
                                 var decoder = await BitmapDecoder.CreateAsync(captureStream);
-                                var encoder = await BitmapEncoder.CreateForTranscodingAsync(stream, decoder);                                
+                                var encoder = await BitmapEncoder.CreateForTranscodingAsync(stream, decoder);
                                 var properties = new BitmapPropertySet {
             { "System.Photo.Orientation", new BitmapTypedValue(PhotoOrientation.Normal, PropertyType.UInt16) }};
                                 await encoder.BitmapProperties.SetPropertiesAsync(properties);
@@ -419,5 +441,82 @@ namespace SimpleImageToASCII.ViewModels
                 });
             }
         }
-     }
+
+        private bool isPress = false;
+
+        public PointerEventHandler PointerPressedEventHandler
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    isPress = true;
+                    DrawPixels(s as TextBlock, e);
+                };
+            }
+        }
+        public PointerEventHandler PointerReleaseEventHandler
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    isPress = false;
+                };
+            }
+        }
+        public PointerEventHandler PointerCancelEventHandler
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    isPress = false;
+                };
+            }
+        }
+        public PointerEventHandler PointerExitEventHandler
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    isPress = false;
+                };
+            }
+        }
+
+        public PointerEventHandler PointerMoveEventHandler
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    if (isPress)
+                    {
+                        DrawPixels(s as TextBlock, e);
+                    }
+                };
+            }
+        }
+
+        private void DrawPixels(TextBlock s,PointerRoutedEventArgs e)
+        {
+            double width = s.ActualWidth;
+            double height = s.ActualHeight;
+            var position = e.GetCurrentPoint(s).Position;
+            int trueWidth = (int)Math.Round((position.X / width) * TextWidth);
+            int trueHeight = (int)Math.Round((position.Y / height) * TextHeight);
+
+            int length = trueHeight * (TextWidth + 2) + trueWidth;
+            //Debug.WriteLine($"X:{trueWidth}|Y:{trueHeight}|length:{length}");
+            if (length < ASCIIText.Length - 1)
+            {
+                StringBuilder sb = new StringBuilder(ASCIIText);
+                char txt = ASCIIText[length];
+                sb.Replace(ASCIIText[length], PaintingCharacter[0], length, 1);
+                ASCIIText = sb.ToString();
+            }
+        }
+    }
 }

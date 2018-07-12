@@ -271,7 +271,8 @@
     <comment>Copy text</comment>
   </data>
   <data name="AfterUpdate_Body.Text" xml:space="preserve">
-    <value>添加评论链接</value>
+    <value>添加字符绘制(锁定文字后在文字上画图)
+增加最大字体到8</value>
     <comment>What's new prompt message body</comment>
   </data>
   <data name="AfterUpdate_Title.Text" xml:space="preserve">
@@ -313,5 +314,9 @@
   <data name="Settings_Share.Content" xml:space="preserve">
     <value>分享此应用🤪</value>
     <comment>Share APP</comment>
+  </data>
+  <data name="MainPage_LockText.ToolTipService.ToolTip" xml:space="preserve">
+    <value>锁定文字并绘制</value>
+    <comment>Lock Text</comment>
   </data>
 </root>
