@@ -49,7 +49,7 @@
                         <Slider Width="100" Margin="10,0,0,0" VerticalAlignment="Center" Minimum="-255"  Maximum="255" Value="{x:Bind ViewModel.Contrast,Mode=TwoWay}" />
                         <SymbolIcon x:Uid="MainPage_FontSize"  Symbol="FontSize"  Margin="10,0,0,0" VerticalAlignment="Center" ToolTipService.ToolTip="Font size" />
                         <Slider x:Name="silder" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Minimum="1" Maximum="8" Value="{x:Bind ViewModel.FontSize,Mode=TwoWay}"></Slider>
-                        <ToggleButton x:Name="LockText" x:Uid="MainPage_LockText" Margin="10,0,0,0" IsChecked="False" VerticalAlignment="Center">
+                        <ToggleButton x:Name="LockText" x:Uid="MainPage_LockText" Margin="10,0,0,0" IsChecked="{x:Bind ViewModel.IsLock,Mode=TwoWay}" VerticalAlignment="Center">
                             <ToggleButton.Content>
                                 <SymbolIcon Symbol="ProtectedDocument" />
                             </ToggleButton.Content>
@@ -117,12 +117,10 @@
                         <ScrollViewer x:Name="scrollViewer" Background="Transparent" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent" RightTapped="{x:Bind ViewModel.ShowFlyout}" IsRightTapEnabled="True">
                                 <TextBlock x:Name="ASCIIText"  FontSize="{x:Bind silder.Value,Mode=OneWay}" LineHeight="{x:Bind silder.Value,Mode=OneWay}" CharacterSpacing="-2"  FontFamily="Courier New" IsTextSelectionEnabled="{x:Bind LockText.IsChecked,Mode=OneWay,Converter={StaticResource BoolNullToBool}}" Text="{x:Bind ViewModel.ASCIIText,Mode=OneWay}"   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           ManipulationMode="All"
+                                           ManipulationDelta="{x:Bind ViewModel.ManipulationDelta}"
                                            PointerPressed="{x:Bind ViewModel.PointerPressedEventHandler}"
-                                           PointerExited="{x:Bind ViewModel.PointerExitEventHandler}"
-                                           PointerReleased="{x:Bind ViewModel.PointerReleaseEventHandler}"
-                                           PointerMoved="{x:Bind ViewModel.PointerMoveEventHandler}"
-                                           PointerCanceled="{x:Bind ViewModel.PointerCancelEventHandler}"
-                                           >
+                                 >
                                 </TextBlock>
                             </Border>
                         </ScrollViewer>

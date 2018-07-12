@@ -99,6 +99,12 @@ namespace SimpleImageToASCII.ViewModels
             }
         }
 
+        private bool _IsLock = false;
+        public bool IsLock
+        {
+            get { return _IsLock; }
+            set { Set(ref _IsLock, value); }
+        }
 
         private int _FontSize = FontSizeService.FontSize;
         public int FontSize
@@ -283,7 +289,6 @@ namespace SimpleImageToASCII.ViewModels
 
         private int TextWidth, TextHeight;
 
-
         public string GetPixels()
         {
             //对比度
@@ -450,72 +455,92 @@ namespace SimpleImageToASCII.ViewModels
             {
                 return (s, e) =>
                 {
-                    isPress = true;
-                    DrawPixels(s as TextBlock, e);
-                };
-            }
-        }
-        public PointerEventHandler PointerReleaseEventHandler
-        {
-            get
-            {
-                return (s, e) =>
-                {
-                    isPress = false;
-                };
-            }
-        }
-        public PointerEventHandler PointerCancelEventHandler
-        {
-            get
-            {
-                return (s, e) =>
-                {
-                    isPress = false;
-                };
-            }
-        }
-        public PointerEventHandler PointerExitEventHandler
-        {
-            get
-            {
-                return (s, e) =>
-                {
-                    isPress = false;
-                };
-            }
-        }
-
-        public PointerEventHandler PointerMoveEventHandler
-        {
-            get
-            {
-                return (s, e) =>
-                {
-                    if (isPress)
+                    if (IsLock)
                     {
-                        DrawPixels(s as TextBlock, e);
+                        //isPress = true;
+                        var point = e.GetCurrentPoint(s as TextBlock);
+                        DrawPixels(s as TextBlock, point.Position.X, point.Position.Y);
                     }
                 };
             }
         }
 
-        private void DrawPixels(TextBlock s,PointerRoutedEventArgs e)
-        {
-            double width = s.ActualWidth;
-            double height = s.ActualHeight;
-            var position = e.GetCurrentPoint(s).Position;
-            int trueWidth = (int)Math.Round((position.X / width) * TextWidth);
-            int trueHeight = (int)Math.Round((position.Y / height) * TextHeight);
+        //public PointerEventHandler PointerReleaseEventHandler
+        //{
+        //    get
+        //    {
+        //        return (s, e) =>
+        //        {
+        //            isPress = false;
+        //        };
+        //    }
+        //}
+        //public PointerEventHandler PointerCancelEventHandler
+        //{
+        //    get
+        //    {
+        //        return (s, e) =>
+        //        {
+        //            isPress = false;
+        //        };
+        //    }
+        //}
+        //public PointerEventHandler PointerExitEventHandler
+        //{
+        //    get
+        //    {
+        //        return (s, e) =>
+        //        {
+        //            isPress = false;
+        //        };
+        //    }
+        //}
+        //public PointerEventHandler PointerMoveEventHandler
+        //{
+        //    get
+        //    {
+        //        return (s, e) =>
+        //        {
+        //            if (isPress)
+        //            {
+        //                DrawPixels(s as TextBlock, e);
+        //            }
+        //        };
+        //    }
+        //}
 
-            int length = trueHeight * (TextWidth + 2) + trueWidth;
-            //Debug.WriteLine($"X:{trueWidth}|Y:{trueHeight}|length:{length}");
-            if (length < ASCIIText.Length - 1)
+        private void DrawPixels(TextBlock s,double X,double Y)
+        {
+            if (X > 0 && X < s.ActualWidth && Y > 0 && Y < s.ActualHeight)
             {
-                StringBuilder sb = new StringBuilder(ASCIIText);
-                char txt = ASCIIText[length];
-                sb.Replace(ASCIIText[length], PaintingCharacter[0], length, 1);
-                ASCIIText = sb.ToString();
+                double width = s.ActualWidth;
+                double height = s.ActualHeight;
+                int trueWidth = (int)Math.Round((X / width) * TextWidth);
+                int trueHeight = (int)Math.Round((Y / height) * TextHeight);
+
+                int length = trueHeight * (TextWidth + 2) + trueWidth;
+                //Debug.WriteLine($"X:{trueWidth}|Y:{trueHeight}|length:{length}");
+                if (length < ASCIIText.Length - 1)
+                {
+                    StringBuilder sb = new StringBuilder(ASCIIText);
+                    char txt = ASCIIText[length];
+                    sb.Replace(ASCIIText[length], PaintingCharacter[0], length, 1);
+                    ASCIIText = sb.ToString();
+                }
+            }
+        }
+
+        public ManipulationDeltaEventHandler ManipulationDelta
+        {
+            get
+            {
+                return (s, e) =>
+                {
+                    if (IsLock)
+                    {
+                        DrawPixels(s as TextBlock, e.Position.X, e.Position.Y);
+                    }
+                };
             }
         }
     }
