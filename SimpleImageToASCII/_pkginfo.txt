@@ -1,1 +1,1 @@
-D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\bin\x64\Release\Upload\SimpleImageToASCII_1.1.5.0\SimpleImageToASCII_1.1.5.0_x86_x64.appxbundle
+D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\bin\x64\Release\Upload\SimpleImageToASCII_1.1.7.0\SimpleImageToASCII_1.1.7.0_x86_x64.appxbundle

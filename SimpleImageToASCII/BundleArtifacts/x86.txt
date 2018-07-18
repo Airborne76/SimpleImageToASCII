@@ -1,2 +1,2 @@
-MainPackage=D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\bin\x86\Release\SimpleImageToASCII_1.1.5.0_x86.appx
-SymbolPackage=D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\AppPackages\SimpleImageToASCII_1.1.5.0_Test\SimpleImageToASCII_1.1.5.0_x86.appxsym
+MainPackage=D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\bin\x86\Release\SimpleImageToASCII_1.1.7.0_x86.appx
+SymbolPackage=D:\VisualStudioProject\SimpleImageToASCII\SimpleImageToASCII\AppPackages\SimpleImageToASCII_1.1.7.0_Test\SimpleImageToASCII_1.1.7.0_x86.appxsym

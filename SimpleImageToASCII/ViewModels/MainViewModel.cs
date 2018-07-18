@@ -231,6 +231,7 @@ namespace SimpleImageToASCII.ViewModels
             var properties = await file.Properties.GetImagePropertiesAsync();
             await SetCanvas(properties.Width, properties.Height, stream.AsRandomAccessStream());
         }
+
         public async Task SetCanvas(double width, double height, IRandomAccessStream randomAccessStream)
         {
             CanvasVisibility = Visibility.Visible;
@@ -280,11 +281,63 @@ namespace SimpleImageToASCII.ViewModels
                             BitmapImage.SetSource(stream);
                         }
                     }
-
                     canvasBitmap.Dispose();
                     canvasBitmap = null;
                 };
             }
+        }
+
+        public ICommand LoadEmptyText
+        {
+            get
+            {
+                return new RelayCommand(async() =>
+                {                    
+                    EmptyDialog emptyDialog = new EmptyDialog();
+                    await emptyDialog.ShowAsync();
+                    if (!emptyDialog.IsCancel)
+                    {
+                        ConvertEmptyASCII(emptyDialog.PixelWidth, emptyDialog.PixelHeight);
+                    }
+                });
+            }
+        }
+        public void ConvertEmptyASCII(int width,int height)
+        {
+            CanvasVisibility = Visibility.Collapsed;
+            ASCIIText = GetEmptyText(width,height);
+            TextWidth = width;
+            TextHeight = height;
+            if (canvasBitmap!=null)
+            {
+                canvasBitmap.Dispose();
+                canvasBitmap = null;
+            }
+        }
+
+        private string GetEmptyText(int width, int height)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (y==0||y==height-1)
+                    {
+                        sb.Append('+');
+                    }
+                    else if (x == 0 || x == width - 1)
+                    {
+                        sb.Append('+');
+                    }
+                    else
+                    {
+                        sb.Append(' ');
+                    }
+                }
+                sb.Append("\r\n");
+            }
+            return sb.ToString();
         }
 
         private int TextWidth, TextHeight;
@@ -516,8 +569,11 @@ namespace SimpleImageToASCII.ViewModels
                 double width = s.ActualWidth;
                 double height = s.ActualHeight;
                 int trueWidth = (int)Math.Round((X / width) * TextWidth);
+                if (trueWidth== TextWidth)
+                {
+                    trueWidth--;
+                }
                 int trueHeight = (int)Math.Round((Y / height) * TextHeight);
-
                 int length = trueHeight * (TextWidth + 2) + trueWidth;
                 //Debug.WriteLine($"X:{trueWidth}|Y:{trueHeight}|length:{length}");
                 if (length < ASCIIText.Length - 1)

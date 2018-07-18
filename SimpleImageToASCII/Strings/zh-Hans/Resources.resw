@@ -227,7 +227,7 @@
     <comment>PixelDensity</comment>
   </data>
   <data name="MainPage_SelectPicrure.ToolTipService.ToolTip" xml:space="preserve">
-    <value>选择图片</value>
+    <value>新建</value>
     <comment>Select Picrure</comment>
   </data>
   <data name="MainPage_Contrast.Text" xml:space="preserve">
@@ -271,8 +271,8 @@
     <comment>Copy text</comment>
   </data>
   <data name="AfterUpdate_Body.Text" xml:space="preserve">
-    <value>添加字符绘制(锁定文字后在文字上画图)
-增加最大字体到8</value>
+    <value>添加新建空文本
+优化绘图操作</value>
     <comment>What's new prompt message body</comment>
   </data>
   <data name="AfterUpdate_Title.Text" xml:space="preserve">
@@ -318,5 +318,33 @@
   <data name="MainPage_LockText.ToolTipService.ToolTip" xml:space="preserve">
     <value>锁定文字并绘制</value>
     <comment>Lock Text</comment>
+  </data>
+  <data name="Empty_Height.Header" xml:space="preserve">
+    <value>高度</value>
+    <comment>height</comment>
+  </data>
+  <data name="Empty_Main.PrimaryButtonText" xml:space="preserve">
+    <value>确认</value>
+    <comment>confirm</comment>
+  </data>
+  <data name="Empty_Main.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>cancel</comment>
+  </data>
+  <data name="Empty_Size.Text" xml:space="preserve">
+    <value>尺寸</value>
+    <comment>size</comment>
+  </data>
+  <data name="Empty_Width.Header" xml:space="preserve">
+    <value>宽度</value>
+    <comment>width</comment>
+  </data>
+  <data name="MainPage_New_Empty.Text" xml:space="preserve">
+    <value>空文本</value>
+    <comment>load empty text</comment>
+  </data>
+  <data name="MainPage_New_Image.Text" xml:space="preserve">
+    <value>来自图片</value>
+    <comment>load Image</comment>
   </data>
 </root>

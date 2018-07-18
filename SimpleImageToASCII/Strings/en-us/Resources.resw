@@ -227,7 +227,7 @@ Please feedback if you have any suggestion or find bugs.</value>
     <comment>PixelDensity</comment>
   </data>
   <data name="MainPage_SelectPicrure.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Select picrure</value>
+    <value>New</value>
     <comment>Select Picrure</comment>
   </data>
   <data name="MainPage_Contrast.Text" xml:space="preserve">
@@ -271,8 +271,8 @@ Please feedback if you have any suggestion or find bugs.</value>
     <comment>Copy text</comment>
   </data>
   <data name="AfterUpdate_Body.Text" xml:space="preserve">
-    <value>Add text painting(lock text then paint on text)
-Increase the maximum fontsize to 8</value>
+    <value>Add new empty text
+Optimize  painting</value>
     <comment>What's new prompt message body</comment>
   </data>
   <data name="AfterUpdate_Title.Text" xml:space="preserve">
@@ -318,5 +318,33 @@ Increase the maximum fontsize to 8</value>
   <data name="MainPage_LockText.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lock text for painting</value>
     <comment>Lock Text</comment>
+  </data>
+  <data name="Empty_Height.Header" xml:space="preserve">
+    <value>Height</value>
+    <comment>height</comment>
+  </data>
+  <data name="Empty_Main.PrimaryButtonText" xml:space="preserve">
+    <value>Confrim</value>
+    <comment>confirm</comment>
+  </data>
+  <data name="Empty_Main.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>cancel</comment>
+  </data>
+  <data name="Empty_Size.Text" xml:space="preserve">
+    <value>Size</value>
+    <comment>size</comment>
+  </data>
+  <data name="Empty_Width.Header" xml:space="preserve">
+    <value>Width</value>
+    <comment>width</comment>
+  </data>
+  <data name="MainPage_New_Empty.Text" xml:space="preserve">
+    <value>Empty text</value>
+    <comment>load empty text</comment>
+  </data>
+  <data name="MainPage_New_Image.Text" xml:space="preserve">
+    <value>From image</value>
+    <comment>load Image</comment>
   </data>
 </root>

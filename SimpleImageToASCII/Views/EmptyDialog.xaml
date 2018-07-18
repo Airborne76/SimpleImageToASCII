@@ -1,0 +1,48 @@
+﻿<ContentDialog
+    x:Class="SimpleImageToASCII.Views.EmptyDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleImageToASCII.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Uid="Empty_Main"
+    PrimaryButtonCommand="{x:Bind Confirm}"        
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe UI">
+    <ContentDialog.PrimaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="DodgerBlue" />
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock x:Uid="Empty_Size" HorizontalAlignment="Center" FontWeight="Bold" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <Grid>
+                    <!--<Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Width" Grid.Column="0" />
+                    <TextBox MaxWidth="200"  Grid.Column="1" HorizontalAlignment="Right" />-->
+                    <Slider x:Uid="Empty_Width" Maximum="200" Minimum="10" Value="{x:Bind PixelWidth,Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <!--<Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Height" Grid.Column="0" />
+                    <TextBox MaxWidth="200"  Grid.Column="1" HorizontalAlignment="Right" />-->
+                    <Slider x:Uid="Empty_Height" Maximum="200" Minimum="10" Value="{x:Bind PixelHeight,Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</ContentDialog>
